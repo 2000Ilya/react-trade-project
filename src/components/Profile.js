@@ -3,7 +3,7 @@ import { Card, Button, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -23,16 +23,27 @@ export default function Dashboard() {
     <>
       <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Profile</h2>
+          <h2 className="text-center mb-4">Профиль</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <strong>Email:</strong> {currentUser.email}
+          {currentUser.email && (
+            <>
+              <strong>Почта:</strong> {currentUser.email}
+            </>
+          )}
+          {currentUser.name && (
+            <>
+              <strong>Имя:</strong> {currentUser.name}
+            </>
+          )}
         </Card.Body>
       </Card>
       <div className="w-100 text-center mt-2">
         <Button variant="link" onClick={handleLogout}>
-          Log Out
+          Выйти
         </Button>
       </div>
     </>
   );
-}
+};
+
+export default Dashboard;

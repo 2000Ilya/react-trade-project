@@ -21,18 +21,16 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user);
+      if (user) {
+        setCurrentUser({ role: "admin", ...user.multiFactor.user });
+      }
       setLoading(false);
     });
 
     return unsubscribe;
   }, []);
 
-  const value = {
-    currentUser,
-    login,
-    logout,
-  };
+  const value = { setCurrentUser, currentUser, login, logout };
 
   return (
     <AuthContext.Provider value={value}>
